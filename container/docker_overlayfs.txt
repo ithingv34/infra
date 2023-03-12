@@ -1,0 +1,20 @@
+# Dockerfile
+
+FROM ubuntu
+RUN echo "Hello World" > hello
+RUN rm hello
+
+
+# docker 설치
+sudo apt install -y docker.io
+
+# Ubuntu 베이스 이미지 가져오기
+sudo docker pull nginx
+sudo docker images
+
+# nginx 실행
+sudo docker run --rm -d nginx
+
+# docker가 어떻게 overlayfs를 사용하는지 확인
+# overlayfs mount 정보 조회
+mount | grep overlay

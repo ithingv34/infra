@@ -1,0 +1,29 @@
+# CPU stress 테스트 툴 설치
+sudo apt update
+sudo apt install -y stress
+
+# test용 cgroup 생성
+sudo su
+cd /sys/fs/cgroup/cpu
+mkdir utils
+cd utils
+echo $$ > tasks (현재 연결된 프로세스 ID)
+
+# cfs quota 설정
+# period는 기본적으로 100ms
+# quota를 10ms로 설정하면 10% 제한
+
+# period 값 확인
+cat cpu.cfs_period_us # 100000
+echo 10000 > cpu.cfs_quota_us
+
+# stress test 실행
+stress -c 1
+
+# Cgroup은 해당 쉘에서 커맨드를 실행하게 되면
+# 해당 쉘의 프로세스의 자식으로 생성이 되서 돌기 떄문에
+# cgroup의 속성은 등록된 부모로부터 상속받아 설정되므로
+# 이런 식으로 테스트를 진행할 수 있다(?)
+
+# 새로운 창에서 CPU 사용량 정보 확인
+top
