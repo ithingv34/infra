@@ -1,0 +1,26 @@
+# unshare 명령어 확인
+unshare --help
+
+# 새로운 mount namespace 생성
+echo $$
+unshare -m /bin/bash
+echo $$ # process id가 다름
+ps aux
+
+# tmpfs 마운트
+mount -t tmpfs tmpfs /mnt
+mount | grep /mnt
+
+# 테스트 파일 생성
+echo "Hello" > /mnt/hello.txt
+cat /mnt/hello.txt
+
+# Terminal을 새로 열어서 테스트 파일 내용 확인
+# 해당 파일이 조회가 되는지 확인
+# namespace가 다르기 때문에 보이지 않음
+cat /mnt/hello.txt
+nsenter -t $TARGET_PID -a # 프로그램을 실행하는데 지정한 네임스페이스로 프로그램을 실행할 수 있음 
+# nsenter -t 8295 -a
+
+# mount namespace 종료
+exit

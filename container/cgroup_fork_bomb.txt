@@ -1,0 +1,26 @@
+# test용 cgroup 생성
+sudo su
+cd /sys/fs/cgroup/pids/
+mkdir police
+cd police
+echo $$ > tasks
+
+# 프로세스 생성 기본 max 값
+# max (제한이 없는 상황)
+cat pids.max
+
+# 프로세스 생성 갯수 제한 (10개)
+echo 10 > pids.max
+
+# fork bomb 실행 
+# 인스턴스 중지 -> restart
+:(){ :|:& };:
+
+# 생성 프로세스 확인 
+ps aux 
+
+# 프로세스 생성 갯수 제한 20개로 변경
+echo 20 > pids.max
+
+# 생성 프로세스 확인 
+ps aux | grep "0:00 bash" | wc -l
