@@ -17,3 +17,13 @@
 2. [disk 사용량]()
 3. [새로운 볼륨 추가하기]()
 4. [lvm volume]()
+
+
+## k8s
+
+1. [kubenetes the hard way]()
+
+
+
+
+
